@@ -10,12 +10,17 @@ chrome.alarms.onAlarm.addListener(function () {
 
 function storeStreetsData(callbackAfterStore) {
     $.getJSON("http://smogalert.pl/api/stations", function (response) {
-        var currentStationId = response[0]._id;
+        var currentStationId = getFirstStationAsDefault(response);
         chrome.storage.local.set({stations: response, currentStationId: currentStationId}, function () {
             callbackAfterStore();
         });
     });
 }
+
+var getFirstStationAsDefault = function (response) {
+    return response[0]._id;
+};
+
 var registerOnChangedListener = function () {
     chrome.storage.onChanged.addListener(function (changes) {
         var currentStationId = changes["currentStationId"];
