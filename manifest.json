@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "KrkSmog",
+    "version": "1.0",
+    "description": "A plain text description",
+    "icons": {
+        "19": "/img/icon_19.png",
+        "38": "/img/icon_38.png",
+        "64": "/img/icon_64.png"
+    },
+
+    "browser_action": {
+        "default_icon": {
+            "19": "/img/icon_19.png",
+            "38": "/img/icon_38.png"
+        },
+        "default_popup": "/popup.html",
+        "default_title": "KrkSmog"
+    },
+    "background": {
+        "scripts": ["/js/lib/jquery.js", "/js/background.js"],
+        "persistent": false
+    },
+
+    "permissions": ["storage", "alarms", "notifications"],
+    "options_page": "options.html"
+}
