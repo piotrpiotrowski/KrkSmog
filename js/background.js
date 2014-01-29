@@ -1,11 +1,17 @@
 chrome.runtime.onInstalled.addListener(function () {
     chrome.alarms.create("refresh", { periodInMinutes: 1});
     storeStreetsData(storePollutionsData);
-    registerOnChangedListener();
 });
 
 chrome.alarms.onAlarm.addListener(function () {
     storePollutionsData();
+});
+
+chrome.storage.onChanged.addListener(function (changes) {
+    var currentStationId = changes["currentStationId"];
+    if (currentStationId && currentStationId.oldValue !== currentStationId.newValue) {
+        storePollutionsData();
+    }
 });
 
 function storeStreetsData(callbackAfterStore) {
@@ -21,14 +27,6 @@ var getFirstStationAsDefault = function (response) {
     return response[0]._id;
 };
 
-var registerOnChangedListener = function () {
-    chrome.storage.onChanged.addListener(function (changes) {
-        var currentStationId = changes["currentStationId"];
-        if (currentStationId && currentStationId.oldValue !== currentStationId.newValue) {
-            storePollutionsData();
-        }
-    });
-};
 
 var storePollutionsData = function () {
     var currentStationId = null;
