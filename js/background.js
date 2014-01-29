@@ -86,7 +86,9 @@ var createMessages = function (oldStatistics, newStatistics) {
     var messages = [];
     for (var i = 0; i < oldStatistics.length; i++) {
         if (newStatistics[i].normPercent > oldStatistics[i].normPercent) {
-            messages.push(createMessage(newStatistics[i], oldStatistics[i]));
+            messages.push(createMessage("increased", newStatistics[i], oldStatistics[i]));
+        } else if (newStatistics[i].normPercent < oldStatistics[i].normPercent) {
+            messages.push(createMessage("decreased", newStatistics[i], oldStatistics[i]));
         }
     }
     return messages;
@@ -102,10 +104,10 @@ var createNotificationOptions = function (messages) {
     };
 };
 
-var createMessage = function (newStatistic, oldStatistic) {
+var createMessage = function (text, newStatistic, oldStatistic) {
     return {
         title: newStatistic.pollutant,
-        message: " increased from " + oldStatistic.normPercent + " to " + newStatistic.normPercent
+        message: text + " from " + oldStatistic.normPercent + " to " + newStatistic.normPercent
     };
 };
 
