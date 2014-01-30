@@ -95,7 +95,7 @@ var createMessages = function (oldStatistics, newStatistics) {
 var createNotificationOptions = function (messages) {
     return {
         title: "Warning",
-        message: "Warning pollutions increased",
+        message: "Pollutions statistic changed",
         iconUrl: "/img/icon_38.png",
         type: "list",
         items: messages
