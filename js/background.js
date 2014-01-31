@@ -41,7 +41,7 @@ var storePollutionsData = function () {
             refreshBadge(response["pollutants"]);
             chrome.storage.local.set(response, function () {
                 if (currentStationId === oldStationId) {
-                    showNotificationForIncreasedValues(response["pollutants"], oldPollutionsData);
+                    showNotificationForIncreasedValues(oldPollutionsData, response["pollutants"]);
                 }
             });
         });
@@ -84,9 +84,9 @@ var createMessages = function (oldStatistics, newStatistics) {
     var messages = [];
     for (var i = 0; i < oldStatistics.length; i++) {
         if (newStatistics[i].normPercent > oldStatistics[i].normPercent) {
-            messages.push(createMessage("increased", newStatistics[i], oldStatistics[i]));
+            messages.push(createMessage("increased", oldStatistics[i], newStatistics[i]));
         } else if (newStatistics[i].normPercent < oldStatistics[i].normPercent) {
-            messages.push(createMessage("decreased", newStatistics[i], oldStatistics[i]));
+            messages.push(createMessage("decreased", oldStatistics[i], newStatistics[i]));
         }
     }
     return messages;
@@ -102,7 +102,7 @@ var createNotificationOptions = function (messages) {
     };
 };
 
-var createMessage = function (text, newStatistic, oldStatistic) {
+var createMessage = function (text, oldStatistic, newStatistic) {
     return {
         title: newStatistic.pollutant,
         message: text + " from " + oldStatistic.normPercent + " to " + newStatistic.normPercent
